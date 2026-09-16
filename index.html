@@ -400,7 +400,7 @@ input[type=range]{width:100%;accent-color:var(--gold);cursor:pointer}
   <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menú" aria-expanded="false">☰</button>
   <nav class="mobile-nav" id="mobileNav" aria-label="Menú móvil">
     <a href="#inicio-movil" class="active">INICIO</a>
-    <a href="#empresa-movil">NUESTRA EMPRESA</a>
+    <a href="empresa.html">NUESTRA EMPRESA</a>
     <a href="galeria.html">GALERÍA</a>
     <a href="#contactanos">CONTÁCTANOS</a>
     <a href="#pedidos-movil">PEDIDOS ESPECIALES</a>
@@ -409,7 +409,7 @@ input[type=range]{width:100%;accent-color:var(--gold);cursor:pointer}
 
   <img class="mockup" src="assets_embedded_index_2.jpg" alt="Arte Ancestral">
   <button class="hotspot" id="inicio" data-msg="Inicio" aria-label="Inicio"></button>
-  <button class="hotspot" id="empresa" data-msg="Nuestra Empresa" aria-label="Nuestra Empresa"></button>
+  <a class="hotspot" id="empresa" href="empresa.html" aria-label="Nuestra Empresa"></a>
   <a class="hotspot" id="galeria" href="galeria.html" aria-label="Galería"></a>
   <button class="hotspot" id="contacto" data-msg="Contáctanos" aria-label="Contáctanos"></button>
   <div class="nav-contact-label">CONTÁCTANOS</div>
@@ -447,11 +447,16 @@ input[type=range]{width:100%;accent-color:var(--gold);cursor:pointer}
 </main>
 
 <section class="contact-section" id="contactanos">
-  <form class="contact-form" id="contactForm">
-    <input type="text" name="nombre" placeholder="Nombre" aria-label="Nombre" required>
+  <form class="contact-form" id="contactForm" action="https://formsubmit.co/contacto@arte-ancestral.com" method="POST">
+    <input type="hidden" name="_subject" value="Nuevo mensaje desde arte-ancestral.com">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_url" value="https://arte-ancestral.com/#contactanos">
+    <input type="hidden" name="_next" value="https://arte-ancestral.com/?mensaje=enviado#contactanos">
+    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+    <input type="text" name="Nombre" placeholder="Nombre" aria-label="Nombre" required>
     <input type="email" name="email" placeholder="Email" aria-label="Email" required>
-    <input type="text" name="asunto" placeholder="Asunto" aria-label="Asunto" required>
-    <textarea name="mensaje" placeholder="Mensaje..." aria-label="Mensaje" required></textarea>
+    <input type="text" name="Asunto" placeholder="Asunto" aria-label="Asunto" required>
+    <textarea name="Mensaje" placeholder="Mensaje..." aria-label="Mensaje" required></textarea>
     <button class="contact-submit" type="submit">ENVIAR</button>
   </form>
 
@@ -469,7 +474,7 @@ input[type=range]{width:100%;accent-color:var(--gold);cursor:pointer}
     </p>
     <p class="contact-note">
       También puedes comunicarte directamente al 0991724518 o escribir a
-      arteancestral@hotmail.com.
+      <a href="mailto:contacto@arte-ancestral.com" style="color:#e0a345;text-decoration:none;font-weight:700">contacto@arte-ancestral.com</a>.
     </p>
   </div>
 </section>
@@ -571,13 +576,14 @@ if(contactoBtn){
 }
 const contactForm=document.getElementById('contactForm');
 if(contactForm){
-  contactForm.addEventListener('submit',(e)=>{
-    e.preventDefault();
-    toast.textContent='Formulario listo. En el siguiente paso podemos conectarlo a tu correo.';
+  const params=new URLSearchParams(window.location.search);
+  if(params.get('mensaje')==='enviado'){
+    toast.textContent='¡Gracias! Tu mensaje fue enviado correctamente.';
     toast.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer=setTimeout(()=>toast.classList.remove('show'),3500);
-  });
+    toastTimer=setTimeout(()=>toast.classList.remove('show'),5000);
+    history.replaceState({},document.title,window.location.pathname+window.location.hash);
+  }
 }
 
 
